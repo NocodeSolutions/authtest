@@ -46,6 +46,23 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
+
+      // Create a new form data object
+      var formData = new FormData();
+      formData.append('response', JSON.stringify(response));
+
+      // Create a new XMLHttpRequest object
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://x8ki-letl-twmt.n7.xano.io/api:9oHx-ps9/app_domain', true);
+      xhr.onload = function() {
+        // Handle the response from the server
+        if (xhr.status === 200) {
+          console.log('Response sent successfully!');
+        } else {
+          console.log('Error sending response.');
+        }
+      };
+      xhr.send(formData);
     });
   }
 
