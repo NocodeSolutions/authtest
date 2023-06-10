@@ -30,13 +30,35 @@
         });
 
         if (
-          location.search.includes("state=") &&
-          (location.search.includes("code=") ||
-            location.search.includes("error="))
-        ) {
-          await auth0Client.handleRedirectCallback();
-          window.history.replaceState({}, document.title, "/");
-        }
+  location.search.includes("state=") &&
+  (location.search.includes("code=") || location.search.includes("error="))
+) {
+  const stateParam = getValueFromQueryString("state");
+  const codeParam = getValueFromQueryString("code");
+  const errorParam = getValueFromQueryString("error");
+
+  const postData = {
+    state: stateParam,
+    code: codeParam,
+    error: errorParam
+  };
+
+  await fetch("https://x8ki-letl-twmt.n7.xano.io/api:9oHx-ps9/app_domain", {
+    method: "POST",
+    body: JSON.stringify(postData),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+
+  await auth0Client.handleRedirectCallback();
+  window.history.replaceState({}, document.title, "/");
+}
+
+function getValueFromQueryString(parameter) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(parameter);
+}
 
         // Assumes a button with id "logout" in the DOM
         const logoutButton = document.getElementById("logout");
