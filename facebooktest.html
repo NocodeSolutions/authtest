@@ -18,32 +18,13 @@
     }
   }
 
+
   function checkLoginState() {               // Called when a person is finished with the Login Button.
     FB.getLoginStatus(function(response) {   // See the onlogin handler
       statusChangeCallback(response);
     });
   }
 
-  function sendAccessTokenToServer(accessToken) {
-    // Create a new form data object
-    var formData = new FormData();
-    formData.append('access_token', accessToken);
-
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://x8ki-letl-twmt.n7.xano.io/api:9oHx-ps9/fb_access_token', true);
-    xhr.onload = function() {
-      // Handle the response from the server
-      if (xhr.status === 200) {
-        console.log('Access token sent successfully!');
-        // Redirect to the desired URL
-        window.location.href = 'https://example.com/redirect-url';
-      } else {
-        console.log('Error sending access token.');
-      }
-    };
-    xhr.send(formData);
-  }
 
   window.fbAsyncInit = function() {
     FB.init({
@@ -52,6 +33,7 @@
       xfbml      : true,                     // Parse social plugins on this webpage.
       version    : 'v17.0'           // Use this Graph API version for this call.
     });
+
 
     FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
       statusChangeCallback(response);        // Returns the login status.
@@ -64,9 +46,6 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-
-      // Send the access token to the server
-      sendAccessTokenToServer(response.accessToken);
     });
   }
 
